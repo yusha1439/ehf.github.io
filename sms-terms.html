@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMS Terms of Service — Estes Heritage Foundation</title>
+  <meta name="description" content="SMS Terms of Service for the Estes Heritage Foundation text messaging program. Includes opt-in, opt-out, and help information." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sand: #F5EFE0; --parchment: #EDE2C8; --umber: #7C5C3A;
+      --sienna: #A0622A; --gold: #C9973A; --ink: #2A1F12;
+      --mist: #F9F5ED; --text-body: #3D2C1A; --text-muted: #7A6652;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Source Sans 3', system-ui, sans-serif; background: var(--mist); color: var(--text-body); line-height: 1.75; }
+    a { color: var(--sienna); }
+    a:hover { color: var(--umber); }
+
+    nav {
+      background: var(--ink); padding: 1rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1rem; font-weight: 700; }
+    .nav-logo span { display: block; font-family: 'Source Sans 3', sans-serif; font-size: 0.6rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,239,224,0.45); }
+    .nav-back { font-size: 0.8rem; color: rgba(245,239,224,0.6); letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; }
+    .nav-back:hover { color: var(--gold); }
+
+    .page-header {
+      background: linear-gradient(135deg, var(--ink) 0%, #3D2810 100%);
+      padding: 4rem 2.5rem 3rem; text-align: center;
+    }
+    .page-header .eyebrow {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem;
+    }
+    .page-header h1 {
+      font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700; color: var(--sand); margin-bottom: 0.75rem;
+    }
+    .page-header .updated { font-size: 0.82rem; color: rgba(245,239,224,0.45); font-style: italic; }
+
+    .content-wrap { max-width: 820px; margin: 0 auto; padding: 3rem 2.5rem 5rem; }
+
+    /* QUICK REFERENCE CARDS */
+    .quick-ref {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1rem; margin-bottom: 3rem;
+    }
+    .qr-card {
+      background: var(--white, #fff); border-radius: 8px;
+      padding: 1.25rem; text-align: center;
+      border-top: 3px solid var(--gold);
+      box-shadow: 0 2px 12px rgba(42,31,18,0.06);
+    }
+    .qr-card .keyword {
+      font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700;
+      color: var(--umber); line-height: 1;
+    }
+    .qr-card p { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.4rem; }
+
+    .policy-section { margin-bottom: 2.25rem; }
+    .policy-section h2 {
+      font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
+      color: var(--ink); margin-bottom: 0.75rem; padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--parchment);
+    }
+    .policy-section h3 { font-size: 1rem; font-weight: 600; color: var(--umber); margin: 1rem 0 0.4rem; }
+    .policy-section p { font-size: 0.97rem; color: var(--text-body); margin-bottom: 0.85rem; }
+    .policy-section ul { margin: 0.5rem 0 0.85rem 1.5rem; font-size: 0.97rem; color: var(--text-body); }
+    .policy-section ul li { margin-bottom: 0.35rem; }
+
+    /* HIGHLIGHT BOX */
+    .highlight-box {
+      background: var(--sand); border-left: 3px solid var(--gold);
+      border-radius: 4px; padding: 1.25rem 1.5rem; margin: 1rem 0;
+    }
+    .highlight-box p { font-size: 0.95rem; margin: 0; }
+
+    /* OPT-OUT BOX — BOLD as required by carriers */
+    .optout-box {
+      background: #FFF3CD; border: 2px solid #E6B800;
+      border-radius: 8px; padding: 1.5rem 1.75rem; margin: 1.5rem 0;
+    }
+    .optout-box h3 {
+      font-size: 1rem; font-weight: 700; color: #7A5C00; margin-bottom: 0.5rem;
+    }
+    .optout-box p { font-size: 0.95rem; font-weight: 600; color: #3D2C00; }
+
+    .contact-box {
+      background: var(--sand); border-radius: 8px;
+      padding: 1.5rem 1.75rem; margin-top: 3rem;
+      border-left: 3px solid var(--gold);
+    }
+    .contact-box h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--ink); margin-bottom: 0.5rem; }
+    .contact-box p { font-size: 0.9rem; color: var(--text-muted); }
+
+    footer {
+      background: var(--ink); padding: 2rem; text-align: center;
+      color: rgba(245,239,224,0.35); font-size: 0.78rem;
+    }
+    footer a { color: rgba(245,239,224,0.5); }
+    footer a:hover { color: var(--gold); }
+
+    @media (max-width: 640px) {
+      .quick-ref { grid-template-columns: 1fr; }
+      .content-wrap { padding: 2rem 1.25rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    Estes Heritage Foundation
+    <span>501(c)(3) · EIN 81-1482687</span>
+  </div>
+  <a href="index.html" class="nav-back">← Back to Home</a>
+</nav>
+
+<div class="page-header">
+  <p class="eyebrow">Legal</p>
+  <h1>SMS Terms of Service</h1>
+  <p class="updated">Last Updated: June 18, 2025 &nbsp;|&nbsp; Effective: June 18, 2025</p>
+</div>
+
+<div class="content-wrap">
+
+  <!-- QUICK REFERENCE -->
+  <div class="quick-ref">
+    <div class="qr-card">
+      <div class="keyword">STOP</div>
+      <p>Reply STOP to unsubscribe from all messages</p>
+    </div>
+    <div class="qr-card">
+      <div class="keyword">HELP</div>
+      <p>Reply HELP for support and contact information</p>
+    </div>
+    <div class="qr-card">
+      <div class="keyword">START</div>
+      <p>Reply START to re-subscribe after opting out</p>
+    </div>
+  </div>
+
+  <div class="policy-section">
+    <h2>1. Program Description</h2>
+    <p>
+      The Estes Heritage Foundation, Inc. (Federal EIN: 81-1482687) operates an SMS text
+      messaging program to share news, Islamic educational content, dawah campaign updates,
+      donation opportunities, and event information with individuals who have opted in to
+      receive messages.
+    </p>
+    <p>
+      This SMS program is operated by the Estes Heritage Foundation in support of its
+      501(c)(3) charitable mission — sharing the message of Islam through digital media,
+      television, and educational outreach. Program messages may include:
+    </p>
+    <ul>
+      <li>Foundation news and program updates (Guide US TV, ShareIslam, ReciteQuran, etc.)</li>
+      <li>Islamic educational reminders and content</li>
+      <li>Fundraising and donation campaigns</li>
+      <li>Event announcements and dawah opportunities</li>
+      <li>Volunteer and community engagement updates</li>
+    </ul>
+  </div>
+
+  <div class="policy-section">
+    <h2>2. How to Opt In</h2>
+    <p>
+      You may opt in to receive SMS messages from the Estes Heritage Foundation by:
+    </p>
+    <ul>
+      <li>Completing the <a href="sms-signup.html">SMS opt-in form</a> on our website and checking the consent checkbox</li>
+      <li>Providing your phone number and verbal or written consent at a Foundation event</li>
+    </ul>
+    <p>
+      By opting in, you confirm that:
+    </p>
+    <ul>
+      <li>You are the account holder or authorized user of the mobile number provided</li>
+      <li>You are 13 years of age or older</li>
+      <li>You consent to receive recurring automated text messages from Estes Heritage Foundation</li>
+      <li>You understand that consent is not required to donate or use any Foundation services</li>
+    </ul>
+
+    <div class="highlight-box">
+      <p>
+        Upon opting in, you will receive a confirmation message: <em>"You're subscribed to Estes Heritage Foundation SMS updates. Msg &amp; data rates may apply. Msg frequency varies. Reply STOP to unsubscribe, HELP for help."</em>
+      </p>
+    </div>
+  </div>
+
+  <div class="policy-section">
+    <h2>3. Message Frequency</h2>
+    <p>
+      Message frequency varies. You may receive up to <strong>4–8 messages per month</strong>,
+      depending on Foundation activity, events, and campaigns. We will not flood your inbox —
+      messages are sent only when we have meaningful updates to share.
+    </p>
+  </div>
+
+  <div class="policy-section">
+    <h2>4. Message &amp; Data Rates</h2>
+    <p>
+      <strong>Message and data rates may apply.</strong> Standard messaging and data rates
+      charged by your wireless carrier apply to all messages sent and received.
+      Contact your wireless carrier for details about your plan.
+      Estes Heritage Foundation does not charge any fees for SMS participation.
+    </p>
+    <p>
+      Carriers are not liable for delayed or undelivered messages.
+    </p>
+  </div>
+
+  <div class="policy-section">
+    <h2>5. How to Opt Out</h2>
+
+    <div class="optout-box">
+      <h3>🛑 To Stop Receiving Messages — Reply STOP</h3>
+      <p>
+        You can cancel the SMS service at any time. Text <strong>STOP</strong> to the number
+        from which you received a message. After sending STOP, you will receive one final SMS
+        confirming your unsubscribe request, and no further messages will be sent to that number.
+      </p>
+    </div>
+
+    <p>The following opt-out keywords are all recognized and honored:</p>
+    <ul>
+      <li><strong>STOP</strong></li>
+      <li><strong>STOPALL</strong></li>
+      <li><strong>UNSUBSCRIBE</strong></li>
+      <li><strong>CANCEL</strong></li>
+      <li><strong>END</strong></li>
+      <li><strong>QUIT</strong></li>
+      <li><strong>REVOKE</strong></li>
+    </ul>
+
+    <p>
+      Opt-out confirmation message: <em>"You have been unsubscribed from Estes Heritage Foundation SMS. No further messages will be sent. Reply START to re-subscribe. For help: contact@guideus.tv"</em>
+    </p>
+
+    <p>
+      To re-subscribe after opting out, reply <strong>START</strong> to the same number,
+      or complete the <a href="sms-signup.html">opt-in form</a> on our website.
+    </p>
+  </div>
+
+  <div class="policy-section">
+    <h2>6. Help</h2>
+    <p>
+      If you need help, reply <strong>HELP</strong> to any SMS message.
+    </p>
+    <p>
+      Help response message: <em>"Estes Heritage Foundation SMS Support. Reply STOP to unsubscribe. Msg &amp; data rates may apply. For help: contact@guideus.tv or visit estesheritagefoundation.org/sms-terms"</em>
+    </p>
+    <p>
+      You may also reach us directly at:
+      <a href="mailto:contact@guideus.tv">contact@guideus.tv</a>
+    </p>
+  </div>
+
+  <div class="policy-section">
+    <h2>7. Privacy &amp; Data Use</h2>
+    <p>
+      Your mobile phone number and opt-in consent are used solely to deliver the SMS
+      program described in these Terms. <strong>We will never sell, share, or disclose
+      your mobile number or SMS opt-in data to any third party, affiliate, or lead
+      generator for marketing or promotional purposes.</strong>
+    </p>
+    <p>
+      For full details on how we handle your personal information, please read our
+      <a href="privacy-policy.html">Privacy Policy</a>.
+    </p>
+  </div>
+
+  <div class="policy-section">
+    <h2>8. Supported Carriers</h2>
+    <p>
+      Our SMS program is supported by all major US wireless carriers, including AT&amp;T,
+      Verizon, T-Mobile, Sprint, Boost Mobile, MetroPCS, and others. Carrier support
+      is not guaranteed for all carriers, and message delivery may vary.
+    </p>
+  </div>
+
+  <div class="policy-section">
+    <h2>9. Modifications</h2>
+    <p>
+      Estes Heritage Foundation reserves the right to modify or discontinue this SMS
+      program at any time. We will provide reasonable notice of material changes.
+      Continued participation in the program after changes constitutes acceptance of
+      the updated terms.
+    </p>
+  </div>
+
+  <div class="policy-section">
+    <h2>10. About the Foundation</h2>
+    <p>
+      Estes Heritage Foundation, Inc. is a 501(c)(3) nonprofit organization. All SMS
+      communications are in furtherance of our charitable mission. Participation in
+      our SMS program does not require any donation and carries no cost beyond standard
+      message and data rates from your carrier.
+    </p>
+  </div>
+
+  <div class="contact-box">
+    <h3>Contact &amp; Support</h3>
+    <p>
+      <strong>Estes Heritage Foundation, Inc.</strong><br />
+      Federal EIN: 81-1482687 · 501(c)(3) Nonprofit<br />
+      Email: <a href="mailto:contact@guideus.tv">contact@guideus.tv</a><br />
+      Website: <a href="index.html">estesheritagefoundation.org</a>
+    </p>
+    <p style="margin-top:0.75rem; font-size:0.85rem;">
+      Reply <strong>STOP</strong> to opt out · Reply <strong>HELP</strong> for help ·
+      Message &amp; data rates may apply
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2025 Estes Heritage Foundation Inc. · 501(c)(3) Nonprofit · EIN 81-1482687</p>
+  <p style="margin-top:0.4rem;">
+    <a href="index.html">Home</a> &nbsp;·&nbsp;
+    <a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="sms-terms.html">SMS Terms</a> &nbsp;·&nbsp;
+    <a href="sms-signup.html">SMS Sign Up</a>
+  </p>
+</footer>
+
+</body>
+</html>

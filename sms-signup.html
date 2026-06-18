@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMS Sign Up — Estes Heritage Foundation</title>
+  <meta name="description" content="Sign up to receive SMS text message updates from the Estes Heritage Foundation." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sand: #F5EFE0; --parchment: #EDE2C8; --umber: #7C5C3A;
+      --sienna: #A0622A; --gold: #C9973A; --ink: #2A1F12;
+      --mist: #F9F5ED; --text-body: #3D2C1A; --text-muted: #7A6652;
+      --green: #2D6A2D; --green-light: #EDF7ED;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Source Sans 3', system-ui, sans-serif; background: var(--mist); color: var(--text-body); line-height: 1.7; }
+    a { color: var(--sienna); }
+    a:hover { color: var(--umber); }
+
+    nav {
+      background: var(--ink); padding: 1rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1rem; font-weight: 700; }
+    .nav-logo span { display: block; font-family: 'Source Sans 3', sans-serif; font-size: 0.6rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,239,224,0.45); }
+    .nav-back { font-size: 0.8rem; color: rgba(245,239,224,0.6); letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; }
+    .nav-back:hover { color: var(--gold); }
+
+    /* PAGE HEADER */
+    .page-header {
+      background: linear-gradient(135deg, var(--ink) 0%, #3D2810 100%);
+      padding: 4rem 2.5rem 3rem; text-align: center;
+    }
+    .page-header .eyebrow {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem;
+    }
+    .page-header h1 {
+      font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800; color: var(--sand); margin-bottom: 0.75rem;
+    }
+    .page-header p { font-size: 1rem; color: rgba(245,239,224,0.7); max-width: 520px; margin: 0 auto; }
+
+    /* LAYOUT */
+    .page-body {
+      max-width: 1000px; margin: 0 auto;
+      padding: 3rem 2.5rem 5rem;
+      display: grid; grid-template-columns: 1fr 1.1fr;
+      gap: 3rem; align-items: start;
+    }
+
+    /* WHAT YOU'LL GET */
+    .benefits h2 {
+      font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;
+      color: var(--ink); margin-bottom: 1.25rem;
+    }
+    .benefit-item { display: flex; gap: 0.85rem; margin-bottom: 1.1rem; align-items: flex-start; }
+    .benefit-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .benefit-item h4 { font-size: 0.95rem; font-weight: 600; color: var(--ink); margin-bottom: 0.15rem; }
+    .benefit-item p { font-size: 0.85rem; color: var(--text-muted); }
+
+    .example-msg {
+      background: var(--ink); border-radius: 10px; padding: 1.5rem;
+      margin-top: 2rem;
+    }
+    .example-msg h4 {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 1rem;
+    }
+    .bubble {
+      background: rgba(255,255,255,0.08); border-radius: 12px 12px 12px 2px;
+      padding: 0.85rem 1rem; margin-bottom: 0.5rem;
+    }
+    .bubble p { font-size: 0.85rem; color: rgba(245,239,224,0.85); line-height: 1.5; }
+    .bubble .sender {
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem;
+    }
+
+    /* FORM CARD */
+    .form-card {
+      background: white; border-radius: 14px;
+      box-shadow: 0 4px 30px rgba(42,31,18,0.10);
+      padding: 2.25rem 2rem;
+      position: sticky; top: 2rem;
+    }
+    .form-card h2 {
+      font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700;
+      color: var(--ink); margin-bottom: 0.35rem;
+    }
+    .form-card .subtitle { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.75rem; }
+
+    .field { margin-bottom: 1.1rem; }
+    .field label {
+      display: block; font-size: 0.82rem; font-weight: 600;
+      color: var(--ink); letter-spacing: 0.04em; margin-bottom: 0.35rem;
+    }
+    .field label .req { color: var(--sienna); margin-left: 2px; }
+    .field input[type="text"],
+    .field input[type="email"],
+    .field input[type="tel"] {
+      width: 100%; padding: 0.75rem 1rem;
+      border: 1.5px solid var(--parchment); border-radius: 6px;
+      font-family: inherit; font-size: 0.95rem; color: var(--ink);
+      background: var(--mist);
+      transition: border-color 0.2s ease;
+      outline: none;
+    }
+    .field input:focus { border-color: var(--gold); background: white; }
+    .field input.error { border-color: #C0392B; }
+
+    /* CONSENT CHECKBOX — CRITICAL for Twilio approval */
+    .consent-block {
+      background: #FFFBF0; border: 1.5px solid var(--gold);
+      border-radius: 8px; padding: 1.1rem 1.1rem 1rem;
+      margin: 1.25rem 0;
+    }
+    .consent-row {
+      display: flex; gap: 0.75rem; align-items: flex-start;
+    }
+    .consent-row input[type="checkbox"] {
+      width: 18px; height: 18px; flex-shrink: 0;
+      margin-top: 3px; accent-color: var(--umber);
+      cursor: pointer;
+    }
+    .consent-label {
+      font-size: 0.82rem; color: var(--text-body); line-height: 1.55;
+    }
+    .consent-label strong { color: var(--ink); }
+    .consent-label a { color: var(--sienna); font-weight: 500; }
+
+    .rates-note {
+      font-size: 0.78rem; color: var(--text-muted);
+      margin-top: 0.75rem; line-height: 1.5;
+    }
+
+    .submit-btn {
+      display: block; width: 100%;
+      background: var(--gold); color: var(--ink);
+      border: none; border-radius: 7px;
+      padding: 1rem; font-family: inherit;
+      font-size: 0.95rem; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease;
+      margin-top: 1rem;
+    }
+    .submit-btn:hover:not(:disabled) { background: var(--sienna); color: white; transform: translateY(-1px); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .error-msg { font-size: 0.78rem; color: #C0392B; margin-top: 0.3rem; display: none; }
+    .error-msg.show { display: block; }
+
+    /* SUCCESS STATE */
+    .success-state {
+      display: none; text-align: center; padding: 1rem 0;
+    }
+    .success-state.show { display: block; }
+    .success-icon { font-size: 3rem; margin-bottom: 0.75rem; }
+    .success-state h3 {
+      font-family: 'Playfair Display', serif; font-size: 1.3rem;
+      color: var(--green); margin-bottom: 0.5rem;
+    }
+    .success-state p { font-size: 0.9rem; color: var(--text-muted); }
+
+    /* LEGAL FOOTER NOTE */
+    .legal-note {
+      font-size: 0.74rem; color: var(--text-muted); line-height: 1.55;
+      margin-top: 1rem; padding-top: 1rem;
+      border-top: 1px solid var(--parchment);
+    }
+
+    footer {
+      background: var(--ink); padding: 2rem; text-align: center;
+      color: rgba(245,239,224,0.35); font-size: 0.78rem;
+    }
+    footer a { color: rgba(245,239,224,0.5); }
+    footer a:hover { color: var(--gold); }
+
+    @media (max-width: 768px) {
+      .page-body { grid-template-columns: 1fr; gap: 2rem; padding: 2rem 1.25rem 4rem; }
+      .form-card { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    Estes Heritage Foundation
+    <span>501(c)(3) · EIN 81-1482687</span>
+  </div>
+  <a href="index.html" class="nav-back">← Back to Home</a>
+</nav>
+
+<div class="page-header">
+  <p class="eyebrow">Stay Connected</p>
+  <h1>Get SMS Updates</h1>
+  <p>Join our text message community and stay connected with the Foundation's dawah work, events, and Islamic content — delivered straight to your phone.</p>
+</div>
+
+<div class="page-body">
+
+  <!-- LEFT: BENEFITS -->
+  <div class="benefits">
+    <h2>What you'll receive</h2>
+
+    <div class="benefit-item">
+      <span class="benefit-icon">📺</span>
+      <div>
+        <h4>Guide US TV Updates</h4>
+        <p>New shows, live events, and must-watch content from America's first Islamic TV station.</p>
+      </div>
+    </div>
+
+    <div class="benefit-item">
+      <span class="benefit-icon">🕌</span>
+      <div>
+        <h4>Islamic Reminders &amp; Content</h4>
+        <p>Beneficial reminders, new articles, and educational content from our network of Islamic sites.</p>
+      </div>
+    </div>
+
+    <div class="benefit-item">
+      <span class="benefit-icon">🤲</span>
+      <div>
+        <h4>Dawah Campaigns</h4>
+        <p>Updates on our outreach efforts and opportunities to support the spreading of Islam.</p>
+      </div>
+    </div>
+
+    <div class="benefit-item">
+      <span class="benefit-icon">📅</span>
+      <div>
+        <h4>Events &amp; Announcements</h4>
+        <p>Foundation events, new project launches, and important community announcements.</p>
+      </div>
+    </div>
+
+    <div class="benefit-item">
+      <span class="benefit-icon">💛</span>
+      <div>
+        <h4>Donation Campaign Updates</h4>
+        <p>Fundraising campaigns to keep our websites, TV station, and dawah work running.</p>
+      </div>
+    </div>
+
+    <!-- EXAMPLE MESSAGES -->
+    <div class="example-msg">
+      <h4>Example Messages</h4>
+      <div class="bubble">
+        <p class="sender">Estes Heritage Foundation</p>
+        <p>JazakAllah khair for subscribing! You're now connected with the Estes Heritage Foundation. Watch us live on GuideUS.TV — America's first Islamic TV channel. Reply STOP to unsubscribe.</p>
+      </div>
+      <div class="bubble">
+        <p class="sender">Estes Heritage Foundation</p>
+        <p>New episode tonight on Guide US TV! Sheikh Yusuf Estes discusses "The Purpose of Life." Tune in at guideus.tv or on Roku. Reply STOP to unsubscribe.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: FORM -->
+  <div class="form-card" id="form-wrap">
+
+    <div id="form-content">
+      <h2>Sign Up for SMS Updates</h2>
+      <p class="subtitle">Free to join. Opt out anytime by replying STOP.</p>
+
+      <div class="field">
+        <label for="fname">First Name <span class="req">*</span></label>
+        <input type="text" id="fname" name="fname" placeholder="Your first name" autocomplete="given-name" />
+        <p class="error-msg" id="fname-err">Please enter your first name.</p>
+      </div>
+
+      <div class="field">
+        <label for="lname">Last Name</label>
+        <input type="text" id="lname" name="lname" placeholder="Your last name" autocomplete="family-name" />
+      </div>
+
+      <div class="field">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" />
+      </div>
+
+      <div class="field">
+        <label for="phone">Mobile Phone Number <span class="req">*</span></label>
+        <input type="tel" id="phone" name="phone" placeholder="(555) 555-5555" autocomplete="tel" />
+        <p class="error-msg" id="phone-err">Please enter a valid US mobile number.</p>
+      </div>
+
+      <!-- CONSENT CHECKBOX — MUST NOT be pre-checked per CTIA/Twilio rules -->
+      <div class="consent-block">
+        <div class="consent-row">
+          <input
+            type="checkbox"
+            id="sms-consent"
+            name="sms-consent"
+            aria-required="true"
+          />
+          <!-- NOTE: This checkbox must NOT be pre-selected. Users must actively check it. -->
+          <label class="consent-label" for="sms-consent">
+            By checking this box, I agree to receive recurring automated SMS text messages
+            from <strong>Estes Heritage Foundation</strong> at the mobile number provided
+            above. Message frequency varies (up to 4–8 messages/month).
+            <strong>Message and data rates may apply.</strong>
+            I understand consent is not a condition of any purchase or donation.
+            I can reply <strong>STOP</strong> to unsubscribe at any time.
+            View our <a href="privacy-policy.html" target="_blank">Privacy Policy</a> and
+            <a href="sms-terms.html" target="_blank">SMS Terms of Service</a>.
+          </label>
+        </div>
+        <p class="error-msg" id="consent-err" style="margin-top:0.5rem;">You must agree to receive SMS messages to sign up.</p>
+      </div>
+
+      <p class="rates-note">
+        📱 <strong>Msg &amp; data rates may apply.</strong> Message frequency varies.
+        Reply <strong>STOP</strong> to unsubscribe · Reply <strong>HELP</strong> for help.<br />
+        No mobile information will be shared with third parties for marketing purposes.
+      </p>
+
+      <button class="submit-btn" id="submit-btn" type="button">
+        Subscribe to SMS Updates
+      </button>
+
+      <p class="legal-note">
+        Estes Heritage Foundation, Inc. is a 501(c)(3) nonprofit (EIN: 81-1482687).
+        Your mobile number will only be used for this SMS program and will never be
+        sold or shared with third parties for marketing purposes. By submitting,
+        you confirm you are the authorized user of the mobile number provided.
+        Standard carrier message and data rates may apply.
+      </p>
+    </div>
+
+    <!-- SUCCESS STATE (shown after form submit) -->
+    <div class="success-state" id="success-state">
+      <div class="success-icon">✅</div>
+      <h3>You're Subscribed!</h3>
+      <p>
+        JazakAllah khair! You'll receive a confirmation text shortly.<br /><br />
+        You can opt out at any time by replying <strong>STOP</strong> to any message.<br />
+        For help, reply <strong>HELP</strong> or email
+        <a href="mailto:contact@guideus.tv">contact@guideus.tv</a>.
+      </p>
+      <p style="margin-top:1.25rem;">
+        <a href="index.html" style="font-weight:600;">← Back to Home</a>
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 Estes Heritage Foundation Inc. · 501(c)(3) Nonprofit · EIN 81-1482687</p>
+  <p style="margin-top:0.4rem;">
+    <a href="index.html">Home</a> &nbsp;·&nbsp;
+    <a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="sms-terms.html">SMS Terms</a> &nbsp;·&nbsp;
+    <a href="sms-signup.html">SMS Sign Up</a>
+  </p>
+</footer>
+
+<script>
+  /* Phone number formatting */
+  const phoneInput = document.getElementById('phone');
+  phoneInput.addEventListener('input', (e) => {
+    let val = e.target.value.replace(/\D/g, '').substring(0, 10);
+    if (val.length >= 6) {
+      val = `(${val.substring(0,3)}) ${val.substring(3,6)}-${val.substring(6)}`;
+    } else if (val.length >= 3) {
+      val = `(${val.substring(0,3)}) ${val.substring(3)}`;
+    }
+    e.target.value = val;
+  });
+
+  /* Form validation & submission */
+  document.getElementById('submit-btn').addEventListener('click', () => {
+    let valid = true;
+
+    /* First name */
+    const fname = document.getElementById('fname').value.trim();
+    const fnameErr = document.getElementById('fname-err');
+    if (!fname) {
+      document.getElementById('fname').classList.add('error');
+      fnameErr.classList.add('show');
+      valid = false;
+    } else {
+      document.getElementById('fname').classList.remove('error');
+      fnameErr.classList.remove('show');
+    }
+
+    /* Phone */
+    const phone = document.getElementById('phone').value.replace(/\D/g, '');
+    const phoneErr = document.getElementById('phone-err');
+    if (phone.length < 10) {
+      document.getElementById('phone').classList.add('error');
+      phoneErr.classList.add('show');
+      valid = false;
+    } else {
+      document.getElementById('phone').classList.remove('error');
+      phoneErr.classList.remove('show');
+    }
+
+    /* Consent checkbox — REQUIRED */
+    const consent = document.getElementById('sms-consent').checked;
+    const consentErr = document.getElementById('consent-err');
+    if (!consent) {
+      consentErr.classList.add('show');
+      valid = false;
+    } else {
+      consentErr.classList.remove('show');
+    }
+
+    if (!valid) return;
+
+    /* All valid — in production, POST to your backend/Twilio here */
+    console.log('SMS Opt-in submitted:', {
+      fname: document.getElementById('fname').value.trim(),
+      lname: document.getElementById('lname').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: phone,
+      consent: true,
+      timestamp: new Date().toISOString(),
+      source: 'website-optin-form'
+    });
+
+    /* Show success */
+    document.getElementById('form-content').style.display = 'none';
+    document.getElementById('success-state').classList.add('show');
+    window.scrollTo({ top: document.getElementById('form-wrap').offsetTop - 80, behavior: 'smooth' });
+  });
+</script>
+
+</body>
+</html>
