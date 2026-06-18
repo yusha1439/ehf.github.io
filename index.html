@@ -886,60 +886,96 @@
     });
   });
 
-  /* ── Auto-load logo from logos/logo.json ── */
-  fetch('logo.json')
-    .then(r => r.json())
+  /* ── Detect base path (works at / or /ehf.github.io/) ── */
+  const base = document.querySelector('base')?.href
+    || (location.pathname.endsWith('/') ? location.href : location.href.replace(/\/[^/]*$/, '/'));
+
+  /* ── Auto-load logo from logo.json ── */
+  fetch(base + 'logo.json')
+    .then(r => r.ok ? r.json() : null)
     .then(filename => {
       if (filename) {
         const img = document.getElementById('nav-logo-img');
-        img.src = 'logos/' + filename;
+        img.src = base + 'logos/' + filename;
         img.style.display = 'block';
         img.onerror = () => img.style.display = 'none';
       }
     })
-    .catch(() => {/* no logo yet, that's fine */});
+    .catch(() => {});
 
-  /* ── Auto-load gallery from photos/gallery.json ── */
+  /* ── Auto-load gallery from gallery.json ── */
   const galleryContainer = document.getElementById('gallery-container');
 
-  fetch('gallery.json')
-    .then(r => r.json())
+  fetch(base + 'gallery.json')
+    .then(r => {
+      if (!r.ok) throw new Error('no gallery.json');
+      return r.json();
+    })
     .then(files => {
       if (!files || files.length === 0) {
         galleryContainer.innerHTML = `
           <div class="gallery-empty">
             <strong>Photos coming soon</strong>
-            Add images to the <code>photos/</code> folder in your project.<br>
-            Push to GitHub and they'll appear here automatically.
+            Add images to the <code>photos/</code> folder, then push to GitHub.
           </div>`;
         return;
       }
-
-      const grid = document.createElement('div');
-      grid.className = 'gallery-grid' + (files.length < 4 ? ' few-photos' : '');
-
-      files.forEach(filename => {
-        const item = document.createElement('div');
-        item.className = 'g-item';
-        const img = document.createElement('img');
-        img.src = 'photos/' + filename;
-        img.alt = 'Estes Heritage Foundation — ' + filename.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
-        img.loading = 'lazy';
-        img.onerror = () => item.style.display = 'none'; // hide broken images gracefully
-        item.appendChild(img);
-        grid.appendChild(item);
-      });
-
-      galleryContainer.innerHTML = '';
-      galleryContainer.appendChild(grid);
+      buildGallery(files);
     })
     .catch(() => {
-      galleryContainer.innerHTML = `
-        <div class="gallery-empty">
-          <strong>Gallery not yet configured</strong>
-          Push this project to GitHub to enable the auto-gallery.
-        </div>`;
+      /* gallery.json missing — try reading GitHub API for the photos folder */
+      const pathParts = location.pathname.replace(/\/$/, '').split('/').filter(Boolean);
+      const repo = pathParts.length > 0 ? pathParts[0] : null;
+
+      /* Derive GitHub user from the hostname: username.github.io */
+      const hostParts = location.hostname.split('.');
+      const user = hostParts[0];
+
+      if (repo && user) {
+        fetch(`https://api.github.com/repos/${user}/${repo}/contents/photos`)
+          .then(r => r.ok ? r.json() : [])
+          .then(items => {
+            const imageExts = /\.(jpg|jpeg|png|gif|webp)$/i;
+            const files = items
+              .filter(f => f.type === 'file' && imageExts.test(f.name))
+              .map(f => f.name);
+            if (files.length > 0) {
+              buildGallery(files);
+            } else {
+              galleryContainer.innerHTML = `
+                <div class="gallery-empty">
+                  <strong>Photos coming soon</strong>
+                  Add images to the <code>photos/</code> folder in your repo and push to GitHub.
+                </div>`;
+            }
+          })
+          .catch(() => {
+            galleryContainer.innerHTML = `
+              <div class="gallery-empty">
+                <strong>Photos coming soon</strong>
+                Add images to the <code>photos/</code> folder in your repo and push to GitHub.
+              </div>`;
+          });
+      }
     });
+
+  function buildGallery(files) {
+    const grid = document.createElement('div');
+    grid.className = 'gallery-grid' + (files.length < 4 ? ' few-photos' : '');
+    files.forEach(filename => {
+      const item = document.createElement('div');
+      item.className = 'g-item';
+      const img = document.createElement('img');
+      img.src = base + 'photos/' + filename;
+      img.alt = 'Estes Heritage Foundation — ' + filename.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+      img.loading = 'lazy';
+      img.onerror = () => item.style.display = 'none';
+      item.appendChild(img);
+      grid.appendChild(item);
+    });
+    galleryContainer.innerHTML = '';
+    galleryContainer.appendChild(grid);
+  }
 </script>
 </body>
 </html>
