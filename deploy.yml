@@ -1,0 +1,78 @@
+name: Deploy Site
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate gallery manifest
+        run: |
+          echo "Scanning photos folder..."
+          cd photos
+          files=$(ls *.jpg *.jpeg *.png *.gif *.webp 2>/dev/null | sort)
+          json="["
+          first=true
+          for f in $files; do
+            if [ "$first" = true ]; then
+              first=false
+            else
+              json="$json,"
+            fi
+            json="$json\"$f\""
+          done
+          json="$json]"
+          echo $json > ../gallery.json
+          echo "Generated gallery.json: $json"
+
+      - name: Generate logo manifest
+        run: |
+          echo "Scanning logos folder..."
+          cd logos
+          files=$(ls *.jpg *.jpeg *.png *.gif *.webp *.svg 2>/dev/null | head -1)
+          if [ -n "$files" ]; then
+            echo "\"$files\"" > ../logo.json
+            echo "Found logo: $files"
+          else
+            echo "null" > ../logo.json
+            echo "No logo found"
+          fi
+
+      - name: Commit manifests
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add gallery.json logo.json
+          git diff --staged --quiet || git commit -m "Auto-update gallery and logo manifests [skip ci]"
+          git push
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

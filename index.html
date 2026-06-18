@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estes Heritage Foundation — Yusuf Estes</title>
+  <meta name="description" content="The Estes Heritage Foundation — pioneering English-language Islamic media since 1991. Home of Guide US TV, ShareIslam, and Sheikh Yusuf Estes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ─────────────────────────────────────── */
+    :root {
+      --sand:       #F5EFE0;
+      --parchment:  #EDE2C8;
+      --umber:      #7C5C3A;
+      --sienna:     #A0622A;
+      --gold:       #C9973A;
+      --ink:        #2A1F12;
+      --mist:       #F9F5ED;
+      --white:      #FFFFFF;
+      --text-body:  #3D2C1A;
+      --text-muted: #7A6652;
+      --radius: 6px;
+      --ease: 0.25s ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Source Sans 3', system-ui, sans-serif; background: var(--mist); color: var(--text-body); line-height: 1.7; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ─────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.85rem 2.5rem;
+      background: rgba(42,31,18,0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(201,151,58,0.12);
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 0.85rem;
+    }
+    .nav-logo-img {
+      height: 44px; width: auto; object-fit: contain;
+      display: none; /* shown by JS once logo loads */
+    }
+    .nav-logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-weight: 600; color: var(--gold);
+      line-height: 1.2;
+    }
+    .nav-logo-text span {
+      display: block; font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.62rem; font-weight: 400; letter-spacing: 0.16em;
+      text-transform: uppercase; color: rgba(245,239,224,0.55);
+    }
+    .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase; color: rgba(245,239,224,0.75);
+      transition: color var(--ease);
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-donate {
+      background: var(--gold); color: var(--ink);
+      padding: 0.5rem 1.2rem; border-radius: var(--radius);
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; transition: background var(--ease);
+      white-space: nowrap;
+    }
+    .nav-donate:hover { background: var(--sienna); color: var(--white); }
+
+    /* hamburger */
+    .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--sand); border-radius: 2px; transition: var(--ease); }
+
+    /* ── SECTION SHELL ───────────────────────────────── */
+    section { padding: 6rem 2.5rem; }
+    .inner { max-width: 1100px; margin: 0 auto; }
+    .eyebrow {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--sienna); margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700; line-height: 1.12; color: var(--ink); margin-bottom: 1.1rem;
+    }
+    .section-lead { font-size: 1.05rem; color: var(--text-muted); max-width: 620px; line-height: 1.75; }
+
+    /* ── HERO ────────────────────────────────────────── */
+    #home {
+      min-height: 100vh; padding: 9rem 2.5rem 5rem;
+      background: linear-gradient(155deg, var(--ink) 0%, #3D2810 55%, #5C3A1A 100%);
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .hero-ornament {
+      position: absolute; right: 3vw; top: 50%; transform: translateY(-50%);
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: clamp(7rem, 20vw, 18rem); line-height: 1;
+      color: transparent; -webkit-text-stroke: 1px rgba(201,151,58,0.15);
+      user-select: none; pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 1.1rem;
+    }
+    #home h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5.5vw, 5rem);
+      font-weight: 800; line-height: 1.07; color: var(--sand);
+      max-width: 680px; margin-bottom: 1.4rem;
+    }
+    #home h1 em { font-style: italic; color: var(--gold); }
+    .hero-sub {
+      font-size: 1.08rem; font-weight: 300;
+      color: rgba(245,239,224,0.75); max-width: 500px;
+      margin-bottom: 2.5rem; line-height: 1.65;
+    }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--gold); color: var(--ink);
+      padding: 0.85rem 2rem; border-radius: var(--radius);
+      font-weight: 700; font-size: 0.88rem; letter-spacing: 0.05em;
+      text-transform: uppercase; transition: background var(--ease), transform var(--ease);
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--sienna); color: var(--white); transform: translateY(-1px); }
+    .btn-outline {
+      border: 1px solid rgba(245,239,224,0.35); color: var(--sand);
+      padding: 0.85rem 2rem; border-radius: var(--radius);
+      font-weight: 500; font-size: 0.88rem; letter-spacing: 0.05em;
+      text-transform: uppercase; display: inline-block;
+      transition: border-color var(--ease), background var(--ease);
+    }
+    .btn-outline:hover { border-color: var(--gold); background: rgba(201,151,58,0.08); }
+
+    /* ── ABOUT ───────────────────────────────────────── */
+    #about { background: var(--sand); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: start; margin-top: 3rem;
+    }
+    .about-text p { margin-bottom: 1rem; font-size: 1rem; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .stat-card {
+      background: var(--white); border-radius: 8px;
+      padding: 1.6rem 1.4rem; border-left: 3px solid var(--gold);
+      box-shadow: 0 2px 14px rgba(42,31,18,0.06);
+    }
+    .stat-card .num {
+      font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 800;
+      color: var(--umber); line-height: 1;
+    }
+    .stat-card .lbl {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text-muted); margin-top: 0.3rem;
+    }
+
+    /* ── SHEIKH YUSUF STORY ──────────────────────────── */
+    #story { background: var(--ink); padding: 6rem 2.5rem; }
+    #story .section-title { color: var(--sand); }
+    #story .eyebrow { color: var(--gold); }
+    .story-grid {
+      display: grid; grid-template-columns: 1fr 1.4fr;
+      gap: 4rem; align-items: start; margin-top: 3rem;
+    }
+    .story-card {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(201,151,58,0.18);
+      border-radius: 10px; padding: 2rem; position: sticky; top: 6rem;
+    }
+    .story-card .portrait-placeholder {
+      width: 100%; aspect-ratio: 3/4; background: linear-gradient(160deg, #3D2810, #5C3A1A);
+      border-radius: 6px; margin-bottom: 1.25rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem; opacity: 0.4;
+    }
+    .story-card h3 {
+      font-family: 'Playfair Display', serif; color: var(--gold);
+      font-size: 1.3rem; margin-bottom: 0.25rem;
+    }
+    .story-card .role { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,239,224,0.5); }
+    .story-body { color: rgba(245,239,224,0.78); }
+    .story-body h4 {
+      font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700;
+      color: var(--gold); margin: 2rem 0 0.5rem;
+    }
+    .story-body h4:first-child { margin-top: 0; }
+    .story-body p { font-size: 0.97rem; margin-bottom: 0.9rem; line-height: 1.72; }
+    .story-body em { font-style: italic; color: rgba(245,239,224,0.9); }
+    .story-body blockquote {
+      border-left: 2px solid var(--gold); padding-left: 1.25rem;
+      margin: 1.25rem 0; font-style: italic; color: rgba(245,239,224,0.65);
+      font-size: 0.95rem;
+    }
+    .steps-list { list-style: none; counter-reset: steps; }
+    .steps-list li {
+      counter-increment: steps; padding: 0.5rem 0 0.5rem 2.5rem; position: relative;
+      font-size: 0.92rem; color: rgba(245,239,224,0.75);
+    }
+    .steps-list li::before {
+      content: counter(steps);
+      position: absolute; left: 0; top: 0.5rem;
+      width: 1.5rem; height: 1.5rem; border-radius: 50%;
+      background: rgba(201,151,58,0.2); color: var(--gold);
+      font-size: 0.72rem; font-weight: 700; display: flex;
+      align-items: center; justify-content: center;
+    }
+
+    /* ── PROJECTS ────────────────────────────────────── */
+    #projects { background: var(--mist); }
+    .project-card {
+      background: var(--white); border-radius: 12px; overflow: hidden;
+      margin-bottom: 2.5rem; display: grid; grid-template-columns: 1fr 1.3fr;
+      box-shadow: 0 4px 24px rgba(42,31,18,0.07);
+    }
+    .project-card.flip { grid-template-columns: 1.3fr 1fr; }
+    .project-card.flip .pv { order: 2; }
+    .project-card.flip .pc { order: 1; }
+    .pv {
+      min-height: 300px; display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, var(--ink) 0%, #5C3A1A 100%);
+    }
+    .pv-inner { position: relative; z-index: 1; text-align: center; padding: 2rem; }
+    .pv-name {
+      font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 800;
+      color: var(--gold); line-height: 1.1;
+    }
+    .pv-tag {
+      font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(245,239,224,0.55); margin-top: 0.4rem;
+    }
+    .pc { padding: 2.5rem 2.25rem; }
+    .ptag {
+      display: inline-block; background: var(--parchment); color: var(--umber);
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; padding: 0.28rem 0.7rem; border-radius: 4px;
+      margin-bottom: 0.85rem;
+    }
+    .pc h3 {
+      font-family: 'Playfair Display', serif; font-size: 1.65rem; font-weight: 700;
+      color: var(--ink); margin-bottom: 0.85rem; line-height: 1.2;
+    }
+    .pc p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.85rem; }
+    .pills { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.85rem 0; }
+    .pill {
+      background: var(--sand); color: var(--umber); border-radius: 100px;
+      padding: 0.25rem 0.85rem; font-size: 0.76rem; font-weight: 500;
+      border: 1px solid var(--parchment);
+    }
+    .plinks { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.25rem; }
+    .plink {
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--sienna);
+      border-bottom: 1px solid var(--gold); padding-bottom: 1px;
+      transition: color var(--ease);
+    }
+    .plink:hover { color: var(--umber); }
+
+    /* ── GALLERY ─────────────────────────────────────── */
+    #gallery { background: #1A1208; padding: 6rem 2.5rem; }
+    #gallery .section-title { color: var(--sand); }
+    #gallery .eyebrow { color: var(--gold); }
+    #gallery .section-lead { color: rgba(245,239,224,0.55); }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 220px;
+      gap: 6px;
+      margin-top: 2.5rem;
+    }
+    .gallery-grid.few-photos {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .g-item {
+      overflow: hidden; border-radius: 3px;
+      background: #2A1F12; position: relative;
+    }
+    .g-item:nth-child(5n+1) { grid-column: span 2; }
+    .g-item:nth-child(7n+3) { grid-row: span 2; }
+    .g-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s ease, opacity 0.3s ease;
+      opacity: 0.82;
+    }
+    .g-item:hover img { transform: scale(1.04); opacity: 1; }
+
+    .gallery-empty {
+      margin-top: 2.5rem; text-align: center;
+      padding: 4rem 2rem;
+      border: 1px dashed rgba(201,151,58,0.2); border-radius: 8px;
+      color: rgba(245,239,224,0.35); font-size: 0.9rem; line-height: 1.8;
+    }
+    .gallery-empty strong { color: var(--gold); display: block; font-size: 1.1rem; margin-bottom: 0.5rem; }
+
+    .gallery-loading {
+      margin-top: 2.5rem; text-align: center; padding: 3rem;
+      color: rgba(245,239,224,0.35); font-size: 0.85rem;
+    }
+
+    /* ── QUOTE BAND ──────────────────────────────────── */
+    .quote-band {
+      background: linear-gradient(135deg, var(--umber) 0%, var(--sienna) 100%);
+      padding: 5rem 2.5rem; text-align: center;
+    }
+    .quote-band blockquote {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: clamp(1.25rem, 3vw, 1.9rem); color: var(--sand);
+      max-width: 760px; margin: 0 auto 1.25rem; line-height: 1.5;
+    }
+    .quote-band cite {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--gold);
+    }
+
+    /* ── IMPACT ──────────────────────────────────────── */
+    #impact { background: var(--parchment); }
+    .impact-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem; margin-top: 3rem;
+    }
+    .impact-item {
+      text-align: center; padding: 2rem 1.5rem;
+      background: var(--white); border-radius: 10px;
+      box-shadow: 0 2px 16px rgba(42,31,18,0.06);
+    }
+    .impact-icon { font-size: 1.8rem; margin-bottom: 0.65rem; }
+    .impact-item h4 {
+      font-family: 'Playfair Display', serif; font-size: 1rem;
+      font-weight: 700; color: var(--ink); margin-bottom: 0.4rem;
+    }
+    .impact-item p { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* ── DONATE ──────────────────────────────────────── */
+    #donate { background: var(--sand); }
+    .donate-grid {
+      display: grid; grid-template-columns: 1.2fr 1fr;
+      gap: 4rem; align-items: start; margin-top: 3rem;
+    }
+    .donate-text p { font-size: 1rem; margin-bottom: 1rem; }
+    .donate-text em { font-style: italic; color: var(--umber); }
+    .ein {
+      font-size: 0.78rem; color: var(--text-muted); font-weight: 600;
+      margin-top: 1.5rem; letter-spacing: 0.04em;
+    }
+    .donate-card {
+      background: var(--ink); border-radius: 12px; padding: 2.25rem 2rem;
+      position: sticky; top: 5.5rem;
+    }
+    .donate-card h4 {
+      font-family: 'Playfair Display', serif; font-size: 1.35rem;
+      color: var(--gold); margin-bottom: 0.4rem;
+    }
+    .donate-card > p { font-size: 0.88rem; color: rgba(245,239,224,0.6); margin-bottom: 1.5rem; }
+    .amounts { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.65rem; margin-bottom: 1.4rem; }
+    .amt {
+      background: rgba(201,151,58,0.1); border: 1px solid rgba(201,151,58,0.28);
+      color: var(--gold); border-radius: 6px; padding: 0.65rem;
+      text-align: center; font-weight: 700; font-size: 0.98rem;
+      cursor: pointer; transition: background var(--ease), border-color var(--ease);
+      user-select: none;
+    }
+    .amt:hover, .amt.on { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+    .donate-btn {
+      display: block; width: 100%; text-align: center;
+      background: var(--gold); color: var(--ink);
+      padding: 0.95rem; border-radius: 6px; font-weight: 700;
+      font-size: 0.92rem; letter-spacing: 0.05em; text-transform: uppercase;
+      transition: background var(--ease);
+    }
+    .donate-btn:hover { background: var(--sienna); color: var(--white); }
+
+    /* ── CONTACT ─────────────────────────────────────── */
+    #contact { background: var(--mist); }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3rem; margin-top: 3rem; align-items: start;
+    }
+    .c-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: flex-start; }
+    .c-icon { font-size: 1.2rem; margin-top: 0.1rem; flex-shrink: 0; }
+    .c-item h5 {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--sienna); margin-bottom: 0.15rem;
+    }
+    .c-item p, .c-item a { font-size: 0.95rem; }
+
+    /* ── FOOTER ──────────────────────────────────────── */
+    footer {
+      background: var(--ink); padding: 2.5rem 2.5rem;
+      text-align: center; color: rgba(245,239,224,0.38);
+      font-size: 0.8rem;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif; font-size: 1.1rem;
+      color: var(--gold); margin-bottom: 0.6rem;
+    }
+    footer a { color: rgba(245,239,224,0.45); transition: color var(--ease); }
+    footer a:hover { color: var(--gold); }
+    .footer-links { display: flex; gap: 1.5rem; justify-content: center; margin: 0.75rem 0; flex-wrap: wrap; }
+
+    /* ── MOBILE ──────────────────────────────────────── */
+    @media (max-width: 820px) {
+      nav { padding: 0.85rem 1.25rem; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(42,31,18,0.97); padding: 1rem 1.25rem 1.5rem; gap: 0.75rem; }
+      .nav-links.open { display: flex; }
+      .nav-toggle { display: flex; }
+      section { padding: 4rem 1.25rem; }
+      .about-grid, .story-grid, .donate-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .story-card { position: static; }
+      .project-card, .project-card.flip { grid-template-columns: 1fr; }
+      .project-card.flip .pv { order: 1; }
+      .project-card.flip .pc { order: 2; }
+      .impact-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 160px; }
+      .gallery-grid.few-photos { grid-template-columns: 1fr; }
+      .g-item:nth-child(5n+1) { grid-column: span 2; }
+      #home { padding: 7rem 1.25rem 4rem; }
+      .hero-ornament { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────────── -->
+<nav id="nav">
+  <div class="nav-brand">
+    <img id="nav-logo-img" class="nav-logo-img" alt="Estes Heritage Foundation logo" />
+    <div class="nav-logo-text">
+      Estes Heritage Foundation
+      <span>501(c)(3) · EIN 81-1482687</span>
+    </div>
+  </div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#story">Sheikh Yusuf</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#donate">Donate</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <a href="#donate" class="nav-donate">Donate</a>
+    <div class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ──────────────────────────────────────────── -->
+<section id="home">
+  <div class="hero-ornament">هدى</div>
+  <p class="hero-eyebrow">Estes Heritage Foundation</p>
+  <h1>Sharing <em>Islam</em><br>with the World<br>Since 1991</h1>
+  <p class="hero-sub">
+    Founded by Sheikh Yusuf Estes — former Christian music minister and preacher —
+    we pioneered English-language Islamic media across television, broadcast, and the internet.
+  </p>
+  <div class="hero-ctas">
+    <a href="#story" class="btn-primary">Sheikh Yusuf's Story</a>
+    <a href="#projects" class="btn-outline">Our Projects</a>
+  </div>
+</section>
+
+<!-- ── ABOUT ─────────────────────────────────────────── -->
+<section id="about">
+  <div class="inner">
+    <p class="eyebrow">Our Foundation</p>
+    <h2 class="section-title">Decades of Dawah &amp; Digital Outreach</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          In 1991, Yusuf Estes accepted Islam and immediately wanted to share it
+          with the world. Long before Google and YouTube, he recognized the internet's
+          power to spread the message of Islam — and began building websites from scratch.
+        </p>
+        <p>
+          In 2008, while on a charitable project in the UK, Sheikh Yusuf discovered
+          14 Muslim-owned TV stations. When asked how many existed in the USA, the
+          answer was zero. By 2011, the Estes Heritage Foundation launched
+          <strong>Guide US TV</strong> — America's first Islamic satellite television
+          channel — opening with a 48-hour live broadcast.
+        </p>
+        <p>
+          Today the foundation runs one of the largest English-language Islamic
+          digital media networks in the world: broadcast television, streaming
+          apps, and over 116 active websites reaching millions every month.
+        </p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="num">30+</div><div class="lbl">Years of Dawah</div></div>
+        <div class="stat-card"><div class="num">116+</div><div class="lbl">Active Websites</div></div>
+        <div class="stat-card"><div class="num">2TB</div><div class="lbl">Islamic Content</div></div>
+        <div class="stat-card"><div class="num">Millions</div><div class="lbl">Monthly Viewers</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SHEIKH YUSUF STORY ─────────────────────────────── -->
+<section id="story">
+  <div class="inner">
+    <p class="eyebrow">The Man Behind the Mission</p>
+    <h2 class="section-title" style="color:var(--sand)">Why Would a Preacher<br>Enter Islam?</h2>
+    <div class="story-grid">
+
+      <div class="story-card">
+        <div class="portrait-placeholder">☪</div>
+        <h3>Sheikh Yusuf Estes</h3>
+        <p class="role">Founder · National Muslim Chaplain · Former US Bureau of Prisons Chaplain</p>
+        <div style="margin-top:1rem;font-size:0.82rem;color:rgba(245,239,224,0.45);line-height:1.6;">
+          Born as "Skip" Estes in the American Midwest · Music minister &amp; Christian preacher ·
+          Piano &amp; organ store owner · Texas, Oklahoma &amp; Florida · Accepted Islam 1991 ·
+          Delegate to UN Peace Conference for Religious Leaders
+        </div>
+      </div>
+
+      <div class="story-body">
+        <h4>Born into Christianity</h4>
+        <p>
+          My name is Yusuf Estes now — but friends once called me Skip. I was born into
+          a strong Christian family in the Midwest, baptized at 12 in Pasadena, Texas, and
+          spent decades as a music minister and preacher of the Gospel. My father and I built
+          music stores, TV and radio programs, and entertainment businesses across Texas,
+          Oklahoma, and Florida. We had earned millions — but could not find the peace that
+          comes only through knowing the truth.
+        </p>
+
+        <h4>Meeting a Muslim</h4>
+        <p>
+          In early 1991, my father began doing business with a man from Egypt — a Muslim.
+          My first reaction? "No way." We had been told Muslims were terrorists, hijackers,
+          people who "worship a black box in the desert." But then an idea came to me:
+          <em>"We can change this man to Christian."</em>
+        </p>
+        <p>
+          I agreed to meet him — on my terms. I came carrying my Bible, a big shiny cross,
+          and a cap that read: <em>"Jesus Is Lord."</em>
+        </p>
+
+        <h4>The Questions That Changed Everything</h4>
+        <p>
+          I asked Mohamed (the Egyptian) every question I knew: Do you believe in God? Adam
+          and Eve? Abraham? Moses? The Ten Commandments? Jesus as the Messiah? To every single
+          question — <em>"Yes."</em>
+        </p>
+        <blockquote>
+          "Well now — this was going to be easier than I had thought. He was just about ready
+          to be baptized — only he didn't know it. And I was just the one to do it, too."
+        </blockquote>
+        <p>
+          Instead, day after day riding together on business trips across Texas, it was
+          <em>I</em> who was being quietly asked questions I had no answers for.
+        </p>
+
+        <h4>A Priest and a Preacher Under One Roof</h4>
+        <p>
+          A Catholic priest named Father Peter Jacobs — a 12-year missionary in Latin America —
+          came to recover at our home. Every night around the kitchen table: my King James
+          Bible, my Revised Standard Version, my wife's copy, my father's, and the Catholic
+          Bible (with 7 extra books). We spent more time arguing about <em>which</em> Bible
+          was right than trying to convince Mohamed of anything.
+        </p>
+        <p>
+          One evening, Father Peter asked to visit the mosque with Mohamed. They came back
+          late, after dark. I almost didn't recognize the priest — he was wearing a white
+          robe and white cap.
+        </p>
+        <blockquote>
+          "Pete — did you become a Muslim?" He said that he had entered into Islam that very day.
+        </blockquote>
+
+        <h4>A Night That Changed Everything</h4>
+        <p>
+          My wife told me she too was entering Islam — she knew it was the truth. I went
+          outside, found an old piece of plywood behind the house, and lay down with my
+          head on the ground, facing the direction Muslims pray.
+        </p>
+        <blockquote>
+          "O God. If you are there — guide me. Guide me."
+        </blockquote>
+        <p>
+          No visions, no angels, no lights. Just a change inside me — a knowing that it
+          was time to stop lying, stop the sneakiness, and live as an honest and upright man.
+        </p>
+        <p>
+          Around 11:00 A.M. the next morning, I stood before two witnesses — the former
+          priest and Mohamed — and said my shahadah.
+        </p>
+
+        <h4>An Entire Household</h4>
+        <p>
+          My wife followed minutes later. My father — an ordained minister who helped build
+          the Prayer Tower for Oral Roberts in Tulsa — declared Islam months later.
+          Eventually the children, the stepmother — an entire household of Christians from
+          three denominations — all came to Islam. One by one.
+        </p>
+
+        <h4>9 Steps to Seeking Truth</h4>
+        <p style="font-size:0.88rem;color:rgba(245,239,224,0.55);margin-bottom:0.75rem;">
+          Sheikh Yusuf's advice to any sincere seeker:
+        </p>
+        <ol class="steps-list">
+          <li>Clean your mind and heart — remove all prejudices</li>
+          <li>Thank God for what you have, every moment</li>
+          <li>Read a good translation of the Quran</li>
+          <li>Reflect on the meanings and consider the bounties of your Lord</li>
+          <li>Seek forgiveness from God and learn to forgive others</li>
+          <li>Ask in your heart for guidance from Above</li>
+          <li>Open your heart and mind</li>
+          <li>Continue regularly for a few months</li>
+          <li>Avoid the poison of evil while your heart is opening</li>
+        </ol>
+
+        <p style="margin-top:1.5rem;font-size:0.88rem;font-style:italic;color:rgba(245,239,224,0.45);">
+          — Chaplain Yusuf Estes, National Muslim Chaplain, Estes Heritage Foundation
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ───────────────────────────────────────── -->
+<section id="projects">
+  <div class="inner">
+    <p class="eyebrow">Our Projects</p>
+    <h2 class="section-title">Pioneering Islamic Media</h2>
+    <p class="section-lead">Each project was built to fill a gap — reaching people seeking the truth about Islam on every platform.</p>
+
+    <div style="margin-top:3rem;">
+
+      <!-- Guide US TV -->
+      <div class="project-card">
+        <div class="pv" style="background:linear-gradient(135deg,var(--ink) 0%,#5C3A1A 100%);">
+          <div class="pv-inner">
+            <div class="pv-name">Guide US TV</div>
+            <div class="pv-tag">America's First Islamic TV Station</div>
+          </div>
+        </div>
+        <div class="pc">
+          <span class="ptag">Television &amp; Streaming</span>
+          <h3>The First American Islamic TV Channel</h3>
+          <p>Launched in 2011 with a 48-hour live broadcast, Guide US TV became America's first Islamic satellite television channel. Now in its 14th year, streaming on Android, iOS, Roku, IPTV, and broadcast TV in key US cities.</p>
+          <p>During the very first live call-in show, a woman in Texas called to say: <em>"I watched Guide US TV and now I want to do my shahadah!"</em> Since then, thousands have come to Islam through the station.</p>
+          <div class="plinks">
+            <a href="https://www.guideus.tv" target="_blank" rel="noopener" class="plink">GuideUS.TV →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ShareIslam -->
+      <div class="project-card flip">
+        <div class="pv" style="background:linear-gradient(135deg,#1A2D1A 0%,#2D4A1A 100%);">
+          <div class="pv-inner">
+            <div class="pv-name" style="color:#7DBF5A;">Share Islam</div>
+            <div class="pv-tag">Increase Your Iman</div>
+          </div>
+        </div>
+        <div class="pc">
+          <span class="ptag">Islamic Web Network</span>
+          <h3>The English-Language Islamic Web Network</h3>
+          <p>Starting with one page of basic facts about Islam and growing over 30 years, ShareIslam now operates 116+ active websites housed on servers across Europe, the USA, and Asia — with 2TB of Islamic content.</p>
+          <div class="pills">
+            <span class="pill">shareislam.com</span>
+            <span class="pill">whatsislam.com</span>
+            <span class="pill">prophetofislam.com</span>
+            <span class="pill">islamswomen.com</span>
+            <span class="pill">qtafsir.com</span>
+            <span class="pill">tubeislam.com</span>
+            <span class="pill">recitequran.com</span>
+          </div>
+          <div class="plinks">
+            <a href="https://www.shareislam.com" target="_blank" rel="noopener" class="plink">ShareIslam →</a>
+            <a href="https://www.tubeislam.com" target="_blank" rel="noopener" class="plink">TubeIslam →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ReciteQuran -->
+      <div class="project-card">
+        <div class="pv" style="background:linear-gradient(135deg,#1A1A2D 0%,#2D1A3A 100%);">
+          <div class="pv-inner">
+            <div class="pv-name" style="color:#9B7FD4;">ReciteQuran</div>
+            <div class="pv-tag">Word-by-Word Pronunciation</div>
+          </div>
+        </div>
+        <div class="pc">
+          <span class="ptag">Quranic Learning</span>
+          <h3>The First Word-by-Word Quran Pronunciation Tool</h3>
+          <p>ReciteQuran.com was the first online resource offering word-by-word Quran pronunciation — helping Muslims worldwide, especially new converts and non-Arabic speakers, learn to recite correctly.</p>
+          <p>A landmark in digital Islamic education that has helped countless believers connect with the words of Allah in a way never before possible online.</p>
+          <div class="plinks">
+            <a href="https://www.recitequran.com" target="_blank" rel="noopener" class="plink">ReciteQuran.com →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERY ────────────────────────────────────────── -->
+<section id="gallery">
+  <div class="inner">
+    <p class="eyebrow">From the Archives</p>
+    <h2 class="section-title">Years of Service</h2>
+    <p class="section-lead">
+      Satellite launches, live events, dawah tours, studio recordings — moments
+      from the Estes Heritage Foundation across three decades.
+    </p>
+    <div id="gallery-container">
+      <div class="gallery-loading">Loading photos…</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUOTE ──────────────────────────────────────────── -->
+<div class="quote-band">
+  <blockquote>
+    "English speaking people need basic facts about our faith. We set out to provide more dynamic content
+    — more videos, more images, more productions — to help the general public understand and consider
+    Islam as a way of life."
+  </blockquote>
+  <cite>— Sheikh Yusuf Estes, Founder, Estes Heritage Foundation</cite>
+</div>
+
+<!-- ── IMPACT ─────────────────────────────────────────── -->
+<section id="impact">
+  <div class="inner">
+    <p class="eyebrow">Our Impact</p>
+    <h2 class="section-title">Reaching Hearts Around the World</h2>
+    <div class="impact-grid">
+      <div class="impact-item">
+        <div class="impact-icon">📺</div>
+        <h4>America's First Islamic TV</h4>
+        <p>Guide US TV launched in 2011 as the first Islamic satellite channel in the US, now on Roku, iOS, Android, and broadcast TV.</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-icon">🌐</div>
+        <h4>Pioneer of the Islamic Web</h4>
+        <p>Built some of the earliest English-language Islamic websites on the internet — now 116+ active sites covering every aspect of Islam.</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-icon">📖</div>
+        <h4>Quranic Innovation</h4>
+        <p>ReciteQuran.com was the first site offering word-by-word Quran pronunciation, opening recitation to learners worldwide.</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-icon">🎥</div>
+        <h4>Islamic Video Network</h4>
+        <p>TubeIslam.com created a dedicated Islamic video platform hosting thousands of lectures and educational content.</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-icon">🤲</div>
+        <h4>Thousands Accept Islam</h4>
+        <p>Through live broadcasts and our digital network, thousands have taken their shahadah and found Islam through our platforms.</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-icon">🌍</div>
+        <h4>Global Reach</h4>
+        <p>From the USA to Indonesia, the foundation's work spans continents — serving English-speaking Muslims and seekers everywhere.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DONATE ─────────────────────────────────────────── -->
+<section id="donate">
+  <div class="inner">
+    <p class="eyebrow">Support the Mission</p>
+    <h2 class="section-title">Keep the Dawah Alive</h2>
+    <div class="donate-grid">
+      <div class="donate-text">
+        <p>The Estes Heritage Foundation is a 501(c)(3) non-profit that relies entirely on your generosity to keep its television station, websites, and digital media running.</p>
+        <p>Every dollar helps maintain 116+ websites serving millions of Muslims, keeps Guide US TV broadcasting, and ensures ReciteQuran, TubeIslam, and our entire network remain free for anyone seeking knowledge about Islam.</p>
+        <p>The Prophet ﷺ said: <em>"When a person dies, his deeds come to an end except for three: a continuing charity, knowledge that benefits people, or a righteous child who prays for him."</em></p>
+        <p>Your donation is a <em>sadaqah jariyah</em> — a continuing charity that benefits Muslims and non-Muslims long after it is given. In sha Allah.</p>
+        <p class="ein">Estes Heritage Foundation Inc. · Federal EIN: 81-1482687 · 501(c)(3) tax-exempt · All donations are tax-deductible</p>
+      </div>
+      <div class="donate-card">
+        <h4>Make a Donation</h4>
+        <p>Choose an amount or give what you can.</p>
+        <div class="amounts">
+          <div class="amt">$25</div>
+          <div class="amt on">$50</div>
+          <div class="amt">$100</div>
+          <div class="amt">$250</div>
+          <div class="amt">$500</div>
+          <div class="amt">Other</div>
+        </div>
+        <a href="mailto:contact@guideus.tv?subject=Donation%20Inquiry" class="donate-btn">Donate Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ────────────────────────────────────────── -->
+<section id="contact">
+  <div class="inner">
+    <p class="eyebrow">Get in Touch</p>
+    <h2 class="section-title">Connect With Us</h2>
+    <div class="contact-grid">
+      <div>
+        <div class="c-item">
+          <span class="c-icon">📧</span>
+          <div><h5>General Inquiries</h5><a href="mailto:contact@guideus.tv">contact@guideus.tv</a></div>
+        </div>
+        <div class="c-item">
+          <span class="c-icon">📺</span>
+          <div><h5>Guide US TV</h5><a href="https://www.guideus.tv" target="_blank" rel="noopener">www.guideus.tv</a></div>
+        </div>
+        <div class="c-item">
+          <span class="c-icon">🌐</span>
+          <div><h5>Share Islam Network</h5><a href="https://www.shareislam.com" target="_blank" rel="noopener">www.shareislam.com</a></div>
+        </div>
+        <div class="c-item">
+          <span class="c-icon">📜</span>
+          <div><h5>Organization</h5><p>Estes Heritage Foundation Inc.<br>EIN: 81-1482687 · 501(c)(3)</p></div>
+        </div>
+      </div>
+      <div>
+        <p class="section-lead" style="margin-bottom:1.5rem;">
+          Whether you want to partner on a dawah project, support the mission financially,
+          or simply learn more about the foundation — we'd love to hear from you.
+        </p>
+        <a href="mailto:contact@guideus.tv" class="btn-primary">Send a Message</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer>
+  <div class="footer-logo">Estes Heritage Foundation</div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#story">Sheikh Yusuf</a>
+    <a href="#projects">Projects</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#donate">Donate</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <p>© 2024 Estes Heritage Foundation Inc. · 501(c)(3) Non-Profit · EIN 81-1482687</p>
+</footer>
+
+<!-- ── SCRIPTS ────────────────────────────────────────── -->
+<script>
+  /* ── Mobile nav toggle ── */
+  const toggle = document.getElementById('nav-toggle');
+  const navLinks = document.getElementById('nav-links');
+  toggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  document.querySelectorAll('#nav-links a').forEach(l =>
+    l.addEventListener('click', () => navLinks.classList.remove('open'))
+  );
+
+  /* ── Active nav on scroll ── */
+  const sections = document.querySelectorAll('section[id]');
+  const allLinks = document.querySelectorAll('.nav-links a');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        allLinks.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -40% 0px' });
+  sections.forEach(s => io.observe(s));
+
+  /* ── Donation amount buttons ── */
+  document.querySelectorAll('.amt').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.amt').forEach(x => x.classList.remove('on'));
+      b.classList.add('on');
+    });
+  });
+
+  /* ── Auto-load logo from logos/logo.json ── */
+  fetch('logo.json')
+    .then(r => r.json())
+    .then(filename => {
+      if (filename) {
+        const img = document.getElementById('nav-logo-img');
+        img.src = 'logos/' + filename;
+        img.style.display = 'block';
+        img.onerror = () => img.style.display = 'none';
+      }
+    })
+    .catch(() => {/* no logo yet, that's fine */});
+
+  /* ── Auto-load gallery from photos/gallery.json ── */
+  const galleryContainer = document.getElementById('gallery-container');
+
+  fetch('gallery.json')
+    .then(r => r.json())
+    .then(files => {
+      if (!files || files.length === 0) {
+        galleryContainer.innerHTML = `
+          <div class="gallery-empty">
+            <strong>Photos coming soon</strong>
+            Add images to the <code>photos/</code> folder in your project.<br>
+            Push to GitHub and they'll appear here automatically.
+          </div>`;
+        return;
+      }
+
+      const grid = document.createElement('div');
+      grid.className = 'gallery-grid' + (files.length < 4 ? ' few-photos' : '');
+
+      files.forEach(filename => {
+        const item = document.createElement('div');
+        item.className = 'g-item';
+        const img = document.createElement('img');
+        img.src = 'photos/' + filename;
+        img.alt = 'Estes Heritage Foundation — ' + filename.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+        img.loading = 'lazy';
+        img.onerror = () => item.style.display = 'none'; // hide broken images gracefully
+        item.appendChild(img);
+        grid.appendChild(item);
+      });
+
+      galleryContainer.innerHTML = '';
+      galleryContainer.appendChild(grid);
+    })
+    .catch(() => {
+      galleryContainer.innerHTML = `
+        <div class="gallery-empty">
+          <strong>Gallery not yet configured</strong>
+          Push this project to GitHub to enable the auto-gallery.
+        </div>`;
+    });
+</script>
+</body>
+</html>
